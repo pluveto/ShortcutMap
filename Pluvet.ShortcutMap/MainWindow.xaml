@@ -88,7 +88,7 @@
                 FontFamily="{StaticResource Roboto}"
                 FontSize="80px"
                 Foreground="White"
-                Text="Intelij IDEA" />
+                Text="Socialism good" />
         </DockPanel>
         <WrapPanel
             Name="MapPanel"
@@ -136,5 +136,31 @@
             </StackPanel>
 
         </WrapPanel>
+        <tb:TaskbarIcon
+            x:Name="myNotifyIcon"
+            IconSource="/Resources/map.ico"
+            MenuActivation="LeftOrRightClick"
+            PopupActivation="DoubleClick"
+            ToolTipText="Shortcut Map"
+            Visibility="Visible">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="LoadedMenuItem" Header="已加载" />
+                    <MenuItem Click="ShareMenuItem_Click" Header="获取与分享" />
+                    <MenuItem Click="ExitMenuItem_Click" Header="退出" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+            <tb:TaskbarIcon.TrayToolTip>
+                <Border
+                    Padding="10"
+                    Background="White"
+                    CornerRadius="5">
+                    <TextBlock>Shortcut Map</TextBlock>
+                </Border>
+            </tb:TaskbarIcon.TrayToolTip>
+        </tb:TaskbarIcon>
+
+
+
     </Grid>
 </Window>

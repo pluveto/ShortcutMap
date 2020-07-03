@@ -2,6 +2,7 @@
 using Pluvet.ShortcutMap.Helper;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -31,6 +32,12 @@ namespace Pluvet.ShortcutMap
         {
             InitializeComponent();
 
+            foreach (var item in App.Maps)
+            {
+                var menuItem = new System.Windows.Controls.MenuItem { Header = item.App, Tag = item };
+                menuItem.Click += MenuItem_Click;
+                this.LoadedMenuItem.Items.Add(menuItem);
+            }
 
             var bgBrush = new ImageBrush(new BitmapImage(new Uri(System.AppDomain.CurrentDomain.BaseDirectory + "/bg.png")));
             this.Background = bgBrush;
@@ -39,6 +46,14 @@ namespace Pluvet.ShortcutMap
             this.Hide();
 
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as System.Windows.Controls.MenuItem;
+            var item = menuItem.Tag as ShortcutMapEntity;
+            Process.Start("explorer.exe", item.FileLocation);
+        }
+
         private void OnHotKeyHandler(GlobalHotKey hotKey)
         {
             if (this.IsFullscreen())
@@ -123,6 +138,16 @@ namespace Pluvet.ShortcutMap
                 this.Hide();
                 this.ExitFullscreen();
             }
+        }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void ShareMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/pluveto/ShortcutMap/labels/Share");
         }
     }
     public class NewLine : FrameworkElement

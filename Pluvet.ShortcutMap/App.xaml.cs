@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Pluvet.ShortcutMap.Entities;
+using Pluvet.ShortcutMap.Helper;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Pluvet.ShortcutMap
@@ -20,6 +23,24 @@ namespace Pluvet.ShortcutMap
         public App()
         {
             App.LoadMaps();
+            CheckUpdate();
+        }
+
+        private async void CheckUpdate()
+        {
+            Updater.GitHubRepo = "/pluveto/ShortcutMap";
+
+            await Task.Run(new Action(() =>
+            {
+                if (Updater.HasUpdate)
+                {
+                    var ret = MessageBox.Show("Shortcut Map 检查到新版本，是否更新？", "提示", MessageBoxButton.YesNo);
+                    if(ret == MessageBoxResult.Yes)
+                    {
+                        Process.Start("https://github.com/pluveto/ShortcutMap/releases/latest");
+                    }
+                }
+            }));
         }
 
         private static void LoadMaps()
@@ -36,6 +57,7 @@ namespace Pluvet.ShortcutMap
                 if (null == newMap) continue;
 
                 newMap.IconUri = new Uri(System.AppDomain.CurrentDomain.BaseDirectory + $"/shortcuts/images/icon-{Path.GetFileNameWithoutExtension(item.Name)}.png");
+                newMap.FileLocation = item.FullName;
                 Maps.Add(newMap);
             }
         }

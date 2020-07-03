@@ -31,6 +31,7 @@ namespace Pluvet.ShortcutMap.Entities
 
         [JsonProperty("groups")]
         public Group[] Groups { get; set; }
+        public string FileLocation { get; internal set; }
     }
 
     public partial class Group
