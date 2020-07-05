@@ -12,7 +12,7 @@ namespace Pluvet.ShortcutMap.Entities
     {
 
         public Uri IconUri { get; set; }
-
+        public Uri BackgroundUri { get; set; }
 
         [JsonProperty("app")]
         public string App { get; set; }
