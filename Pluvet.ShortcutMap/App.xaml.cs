@@ -55,8 +55,14 @@ namespace Pluvet.ShortcutMap
                 var newMap = JsonConvert.DeserializeObject<ShortcutMapEntity>(jsonText);
 
                 if (null == newMap) continue;
-
-                newMap.IconUri = new Uri(System.AppDomain.CurrentDomain.BaseDirectory + $"/shortcuts/images/icon-{Path.GetFileNameWithoutExtension(item.Name)}.png");
+                var iconPath = System.AppDomain.CurrentDomain.BaseDirectory + $"/shortcuts/images/icon-{Path.GetFileNameWithoutExtension(item.Name)}.png";
+                if (!File.Exists(iconPath)) continue;
+                var bgPath = System.AppDomain.CurrentDomain.BaseDirectory + $"/shortcuts/images/bg-{Path.GetFileNameWithoutExtension(item.Name)}.png";
+                if (File.Exists(bgPath))
+                {
+                    newMap.BackgroundUri = new Uri(bgPath);
+                }
+                newMap.IconUri = new Uri(iconPath);
                 newMap.FileLocation = item.FullName;
                 Maps.Add(newMap);
             }
